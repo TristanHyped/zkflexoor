@@ -1,14 +1,6 @@
-import {
-  VStack,
-  Text,
-  Box,
-  Input,
-  InputGroup,
-  Alert,
-  HStack,
-} from "@chakra-ui/react";
-import { SButton } from "@/components/shared/SButton";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { SButton } from '@/components/shared/SButton';
+import { Alert, HStack, Input, InputGroup, Text, VStack } from '@chakra-ui/react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Flex() {
   return (
@@ -25,22 +17,11 @@ export default function Flex() {
 
 export const FlexIntro = () => {
   return (
-    <VStack
-      bg="#fcd642"
-      border="5px solid black"
-      p="2rem"
-      alignItems="flex-start"
-      fontSize="2rem"
-    >
+    <VStack bg="#fcd642" border="5px solid black" p="2rem" alignItems="flex-start" fontSize="2rem">
       Before we get started, make sure you have prepared.
       <Text>1. Your whale wallet. This wallet will never be made public.</Text>
-      <Text>
-        2. Your anon wallet with a .hl name. This wallet will be public.
-      </Text>
-      <Text>
-        3. A light snack while you wait. Proof generation can take up to 5
-        minutes
-      </Text>
+      <Text>2. Your anon wallet with a .hl name. This wallet will be public.</Text>
+      <Text>3. A light snack while you wait. Proof generation can take up to 5 minutes</Text>
     </VStack>
   );
 };
@@ -60,7 +41,7 @@ export const Step2 = () => {
       <Text fontSize="2rem">2. Sign the message</Text>
       <Text fontSize="1.5rem">You are a dolphin (1000-5000 HYPE)</Text>
       <VStack>
-        <InputGroup endElement={"x"}>
+        <InputGroup endElement={'x'}>
           <Input
             placeholder="Enter your .hl name"
             borderRadius="0"
@@ -70,23 +51,16 @@ export const Step2 = () => {
             bg="#eeeeff77"
           />
         </InputGroup>
-        <Alert.Root
-          as={HStack}
-          pr="0.5rem"
-          pl="4px"
-          py="4px"
-          userSelect="none"
-          status="warning"
-        >
+        <Alert.Root as={HStack} pr="0.5rem" pl="4px" py="4px" userSelect="none" status="warning">
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title>
-              <Text>Make sure your public wallet controls the .hl name</Text>
+              <Text>Make sure your public wallet controls the name</Text>
             </Alert.Title>
           </Alert.Content>
         </Alert.Root>
       </VStack>
-      <SButton text="Continue" />
+      <SButton text="Sign" />
     </VStack>
   );
 };
@@ -96,7 +70,7 @@ export const Step3 = () => {
     <VStack gap="1rem" w="full" maxW="500px">
       <Text fontSize="2rem">3. Generate ZK proof</Text>
       <Text fontSize="1.5rem">You are a dolphin (1000-5000 HYPE)</Text>
-      <InputGroup endElement={"x"}>
+      <InputGroup endElement={'x'}>
         <Input
           placeholder="Enter your .hl name"
           borderRadius="0"
@@ -106,7 +80,7 @@ export const Step3 = () => {
           bg="#eeeeff77"
         />
       </InputGroup>
-      <SButton text="Continue" />
+      <SButton text="Generate" />
     </VStack>
   );
 };

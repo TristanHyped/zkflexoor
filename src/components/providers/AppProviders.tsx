@@ -1,25 +1,22 @@
-"use client";
-import { system } from "@/styles/theme";
-import { ChakraProvider } from "@chakra-ui/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { WagmiProvider } from "wagmi";
-import { wagmiConfig } from "@/constants/wagmiConfig";
+'use client';
+import { wagmiConfig } from '@/constants/wagmiConfig';
+import { system } from '@/styles/theme';
+import { ChakraProvider } from '@chakra-ui/react';
+import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
 
-import "@rainbow-me/rainbowkit/styles.css";
+import { FlexoorProvider } from '@/contexts/FlexoorContext';
+import '@rainbow-me/rainbowkit/styles.css';
 
 const dt = darkTheme({
-  overlayBlur: "small",
-  accentColor: "#51d2c1",
-  accentColorForeground: "#000000",
-  borderRadius: "large",
+  overlayBlur: 'small',
+  accentColor: '#51d2c1',
+  accentColorForeground: '#000000',
+  borderRadius: 'large',
 });
 
-export default function AppProviders({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppProviders({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient();
   return (
     <WagmiProvider config={wagmiConfig}>
@@ -29,11 +26,13 @@ export default function AppProviders({
             ...dt,
             colors: {
               ...dt.colors,
-              modalBackground: "#323341cf",
+              modalBackground: '#323341cf',
             },
           }}
         >
-          <ChakraProvider value={system}>{children}</ChakraProvider>
+          <ChakraProvider value={system}>
+            <FlexoorProvider>{children}</FlexoorProvider>
+          </ChakraProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
