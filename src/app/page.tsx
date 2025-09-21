@@ -1,31 +1,16 @@
 import { Box, VStack, Text, Button } from "@chakra-ui/react";
+import { SButton } from "@/components/shared/SButton";
 
 export default function Home() {
   return (
-    <VStack py="2rem" px="3rem" gap="6rem">
+    <VStack py="6rem" px="3rem" gap="6rem">
       <VStack>
         <Text fontSize="4rem">ZK Flexoor</Text>
         <Text fontSize="2rem">
           Flex your HYPE Balance without doxxing your wallet address
         </Text>
 
-        <Button
-          px="4rem"
-          size="xl"
-          border="2px solid black"
-          bg="transparent"
-          color="black"
-          fontSize="2rem"
-          _hover={{
-            bg: "gray.800/20",
-          }}
-          _active={{
-            bg: "transparent !important",
-          }}
-          mt="2rem"
-        >
-          <Text>Get Started</Text>
-        </Button>
+        <SButton text="Get Started" mt="2rem" />
       </VStack>
 
       <VStack w="50%" alignSelf="flex-start">
@@ -62,6 +47,7 @@ export default function Home() {
           </ul>
         </Box>
       </VStack>
+      <SButton text="Get Started" mt="2rem" />
     </VStack>
   );
 }
