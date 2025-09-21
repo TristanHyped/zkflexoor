@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppProviders from "@/components/providers/AppProviders";
-import { poppins } from "@/styles/Fonts";
+import { vt323 } from "@/styles/Fonts";
 
 export const metadata: Metadata = {
   title: "ZKFlexoor",
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable}`}>
+      <body className={`${vt323.variable}`}>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

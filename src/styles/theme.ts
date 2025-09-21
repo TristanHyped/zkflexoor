@@ -4,7 +4,7 @@ import {
   defineConfig,
   defineRecipe,
 } from "@chakra-ui/react";
-import { poppins } from "./Fonts";
+import { vt323 } from "./Fonts";
 
 export type ButtonColorVariants =
   | "primary"
@@ -147,8 +147,8 @@ const customConfig = defineConfig({
     tokens: {
       colors,
       fonts: {
-        body: { value: poppins.style.fontFamily },
-        heading: { value: poppins.style.fontFamily },
+        body: { value: vt323.style.fontFamily },
+        heading: { value: vt323.style.fontFamily },
       },
 
       animations: {
