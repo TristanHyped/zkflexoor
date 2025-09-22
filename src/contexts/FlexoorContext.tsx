@@ -1,10 +1,12 @@
 import { hostNetwork, wagmiConfig } from '@/config/wagmiConfig';
+import { getTier, Tier, tiers } from '@/constants/tiers';
+import { useGetNameData } from '@/hooks/useGetNameData';
 import { generateProof } from '@/lib/proof';
 import { type ProofRequest, type SubmitionInputs } from '@/lib/types';
 import { FLEXOR_ADDRESS } from '@/lib/utils';
-import { createContext, type ReactNode, useContext, useState } from 'react';
-import { parseEther, toHex } from 'viem';
-import { useAccount, useSwitchChain, useWriteContract } from 'wagmi';
+import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
+import { formatUnits, namehash, parseEther, toHex, zeroAddress } from 'viem';
+import { useAccount, useBalance, useSwitchChain, useWriteContract } from 'wagmi';
 import { signMessage } from 'wagmi/actions';
 import abi from '../../public/Flexor.json';
 
@@ -17,6 +19,8 @@ interface FlexoorContextType {
   setStep: (step: number) => void;
   attachProof: () => Promise<void>;
   handleGenerate: () => Promise<void>;
+  tier: Tier;
+  isHlnLoading: boolean;
   submissionResult: string | null;
   balanceTarget: number;
   started: boolean;
@@ -31,8 +35,7 @@ const FlexoorContext = createContext<FlexoorContextType | undefined>(undefined);
 
 export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
   const [hlnInput, setHlnInput] = useState<string>('');
-  const isHlnValid = true;
-  const isHlnControlled = true;
+
   const [step, setStep] = useState<number>(0);
 
   const [status, setStatus] = useState('');
@@ -53,16 +56,46 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
   const [balanceTarget, setBalanceTarget] = useState(0);
   const [started, setStarted] = useState(false);
 
-  const { chainId } = useAccount();
+  const { chainId, address } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   const { writeContractAsync } = useWriteContract();
 
+  const { data: nameData, isLoading } = useGetNameData(
+    namehash(hlnInput),
+    namehash(hlnInput.replace('.hl', ''))
+  );
+
+  console.log('nameData', nameData);
+
+  const isHlnValid = useMemo(() => {
+    return hlnInput.includes('.hl') && nameData && nameData.owner !== zeroAddress;
+  }, [nameData, hlnInput]);
+
+  const isHlnControlled = useMemo(() => {
+    return nameData?.owner === address;
+  }, [nameData, address]);
+
+  const { data: balance } = useBalance({
+    address: address,
+  });
+
+  const { tier } = useMemo(() => {
+    if (balance) {
+      return {
+        tier: getTier(Number(formatUnits(balance.value, balance.decimals))),
+      };
+    }
+    return {
+      tier: tiers.crab,
+    };
+  }, [balance]);
+
   const handleGenerate = async () => {
     const values = {
-      balance: 10,
+      balance: tier.min,
       name: hlnInput,
     } as ProofRequest;
-    console.log('😵‍💫 generating ');
+    console.log('😵‍💫 generating proof for ', values.name);
     setStarted(true);
     setStatus('Starting...');
     setProgress(5);
@@ -155,6 +188,8 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
         status,
         submitionInput,
         proofGenerated,
+        tier,
+        isHlnLoading: isLoading,
       }}
     >
       {children}

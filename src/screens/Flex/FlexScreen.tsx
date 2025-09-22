@@ -2,7 +2,7 @@
 import { SButton } from '@/components/shared/SButton';
 import { useFlexoor } from '@/contexts/FlexoorContext';
 import { GenerateProof } from '@/screens/Flex/Steps/GenerateProof';
-import { Input, InputGroup, Text, VStack } from '@chakra-ui/react';
+import { Text, VStack } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/navigation';
 
@@ -21,9 +21,10 @@ export const FlexScreen = () => {
       <Step1 />
       {/* <Step2 /> */}
       <GenerateProof />
+      <Step3 />
       <Step4 />
       <Step5 />
-      <Step6 />
+      Step: {step}
     </VStack>
   );
 };
@@ -60,54 +61,64 @@ export const Step1 = () => {
   );
 };
 
-export const Step2 = () => {
-  const { hlnInput, setHlnInput } = useFlexoor();
+// export const Step2 = () => {
+//   const { hlnInput, setHlnInput, tier, isHlnValid } = useFlexoor();
+//   return (
+//     <VStack gap="2rem" w="full" maxW="500px">
+//       <Text fontSize="2rem">2. Sign the message</Text>
+//       <Text fontSize="1.5rem">
+//         You are a {tier.name} ({tier.min}-{tier.max} HYPE)
+//       </Text>
+//       <VStack>
+//         <InputGroup
+//           endElement={
+//             <Box w="20px" h="20px" display="flex" alignItems="center" justifyContent="center">
+//               {isHlnValid ? <CheckIcon color="green" /> : <XIcon color="red" />}
+//             </Box>
+//           }
+//         >
+//           <Input
+//             placeholder="Enter your .hl name"
+//             borderRadius="0"
+//             border="3px solid black"
+//             fontSize="1.5rem"
+//             px="0.5rem"
+//             bg="#eeeeff77"
+//             value={hlnInput}
+//             onChange={(e) => setHlnInput(e.target.value)}
+//           />
+//         </InputGroup>
+//       </VStack>
+//     </VStack>
+//   );
+// };
+
+export const Step3 = () => {
+  const { setStep } = useFlexoor();
   return (
-    <VStack gap="2rem" w="full" maxW="500px">
-      <Text fontSize="2rem">2. Sign the message</Text>
-      <Text fontSize="1.5rem">You are a dolphin (1000-5000 HYPE)</Text>
-      <VStack>
-        <InputGroup endElement={'x'}>
-          <Input
-            placeholder="Enter your .hl name"
-            borderRadius="0"
-            border="3px solid black"
-            fontSize="1.5rem"
-            px="0.5rem"
-            bg="#eeeeff77"
-            value={hlnInput}
-            onChange={(e) => setHlnInput(e.target.value)}
-          />
-        </InputGroup>
-      </VStack>
+    <VStack gap="1.5rem">
+      <Text fontSize="2rem">3. Connect your public wallet</Text>
+      <ConnectButton />
+      <SButton text="Next" onClick={() => setStep(4)} />
     </VStack>
   );
 };
 
 export const Step4 = () => {
-  const { setStep } = useFlexoor();
+  const { attachProof, tier, hlnInput } = useFlexoor();
   return (
     <VStack gap="1.5rem">
-      <Text fontSize="2rem">4. Connect your public wallet</Text>
-      <ConnectButton />
-      <SButton text="Next" onClick={() => setStep(5)} />
-    </VStack>
-  );
-};
-
-export const Step5 = () => {
-  const { attachProof } = useFlexoor();
-  return (
-    <VStack gap="1.5rem">
-      <Text fontSize="2rem">5. Attach proof to your .hl name</Text>
-      <Text fontSize="1.5rem">You are a dolphin (1000-5000 HYPE)</Text>
-      <Text fontSize="1.8rem">Attaching to xulian.hl</Text>
+      <Text fontSize="2rem">4. Attach proof to your .hl name</Text>
+      <Text fontSize="1.5rem">
+        You are a {tier.name} ({tier.min}-{tier.max} HYPE)
+      </Text>
+      <Text fontSize="1.8rem">Attaching to {hlnInput}</Text>
       <SButton text="Attach" onClick={attachProof} />
     </VStack>
   );
 };
 
-export const Step6 = () => {
+export const Step5 = () => {
   const router = useRouter();
   return (
     <VStack gap="1.5rem">

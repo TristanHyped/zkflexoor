@@ -1,14 +1,53 @@
 import { SButton } from '@/components/shared/SButton';
 import { useFlexoor } from '@/contexts/FlexoorContext';
-import { Alert, HStack, Input, InputGroup, Progress, Text, VStack } from '@chakra-ui/react';
+import {
+  Alert,
+  Box,
+  chakra,
+  HStack,
+  Input,
+  InputGroup,
+  Progress,
+  Spinner,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
+import { FaCheck, FaXmark } from 'react-icons/fa6';
+
+const XIcon = chakra(FaXmark);
+const CheckIcon = chakra(FaCheck);
 
 export const GenerateProof = () => {
-  const { handleGenerate, hlnInput, status, setHlnInput, isGenerating, progress } = useFlexoor();
+  const {
+    handleGenerate,
+    hlnInput,
+    status,
+    isHlnLoading,
+    setHlnInput,
+    tier,
+    isGenerating,
+    progress,
+    isHlnValid,
+  } = useFlexoor();
   return (
     <VStack gap="1rem" w="full" maxW="500px">
       <Text fontSize="2rem">3. Generate ZK proof</Text>
-      <Text fontSize="1.5rem">You are a dolphin (1000-5000 HYPE)</Text>
-      <InputGroup endElement={'x'}>
+      <Text fontSize="1.5rem">
+        You are a {tier.name} ({tier.min}-{tier.max} HYPE)
+      </Text>
+      <InputGroup
+        endElement={
+          <Box w="20px" h="20px" display="flex" alignItems="center" justifyContent="center">
+            {hlnInput === '' ? null : isHlnLoading ? (
+              <Spinner />
+            ) : isHlnValid ? (
+              <CheckIcon color="green" />
+            ) : (
+              <XIcon color="red" />
+            )}
+          </Box>
+        }
+      >
         <Input
           placeholder="Enter your .hl name"
           borderRadius="0"
