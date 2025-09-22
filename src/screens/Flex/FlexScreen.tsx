@@ -105,7 +105,7 @@ export const Step3 = () => {
 };
 
 export const Step4 = () => {
-  const { attachProof, tier, hlnInput } = useFlexoor();
+  const { attachProof, tier, hlnInput, status } = useFlexoor();
   return (
     <VStack gap="1.5rem">
       <Text fontSize="2rem">4. Attach proof to your .hl name</Text>
@@ -113,7 +113,7 @@ export const Step4 = () => {
         You are a {tier.name} ({tier.min}-{tier.max} HYPE)
       </Text>
       <Text fontSize="1.8rem">Attaching to {hlnInput}</Text>
-      <SButton text="Attach" onClick={attachProof} />
+      <SButton text="Attach" onClick={attachProof} disabled={status !== 'Proof ready'} />
     </VStack>
   );
 };

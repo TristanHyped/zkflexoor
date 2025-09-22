@@ -123,6 +123,7 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
       setProgress(100);
       setProofGenerated(true);
       setBalanceTarget(values.balance);
+      setIsGenerating(false);
     } catch (error) {
       console.error('Proof generation error:', error);
       setSubmissionResult(
