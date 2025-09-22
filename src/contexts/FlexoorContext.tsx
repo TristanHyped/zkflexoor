@@ -1,4 +1,5 @@
-import { hostNetwork, wagmiConfig } from '@/config/wagmiConfig';
+import { supabase } from '@/clients/supabaseClient';
+import { hostNetwork } from '@/config/wagmiConfig';
 import { getTier, Tier, tiers } from '@/constants/tiers';
 import { useGetNameData } from '@/hooks/useGetNameData';
 import { generateProof } from '@/lib/proof';
@@ -7,7 +8,6 @@ import { FLEXOR_ADDRESS } from '@/lib/utils';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { formatUnits, namehash, parseEther, toHex, zeroAddress, zeroHash } from 'viem';
 import { useAccount, useBalance, useSwitchChain, useWriteContract } from 'wagmi';
-import { signMessage } from 'wagmi/actions';
 import abi from '../../public/Flexor.json';
 
 interface FlexoorContextType {
@@ -163,19 +163,39 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
     console.log(tx);
   };
 
+  const message = useMemo(() => {
+    const messageObjet = {
+      proof: toHex(submitionInput.proof),
+      publicInputs: toHex(submitionInput.publicInputs),
+      blockNumber: Number(submitionInput.blockNumber),
+      flexor_hl: submitionInput.flexor_hl,
+    };
+    console.log('messageObjet', messageObjet);
+    return JSON.stringify(messageObjet);
+  }, [submitionInput]);
+
   const attachProof = async () => {
-    try {
-      const message = 'Attaching proof';
-      const signature = await signMessage(wagmiConfig, {
-        message,
-      });
-      console.log('Signature:', signature);
+    const { error } = await supabase.from('leaderboard').insert({
+      proof: message,
+      name: hlnInput,
+      tier: tier.name,
+    });
+    if (error) {
+      console.error('Error attaching proof:', error);
+    } else {
       setStep(6);
-    } catch (error) {
-      console.error('Error signing message:', error);
-      return;
     }
   };
+
+  // todo: need to upload proof to arweave, as it is expensive to upload onchain.
+  // const { write: attachProof } = useUpdateTextRecordByController(
+  //   hlnNamehash,
+  //   'proof',
+  //   message,
+  //   '',
+  //   '',
+  //   onSuccess
+  // );
 
   return (
     <FlexoorContext.Provider
