@@ -24,7 +24,7 @@ export const FlexScreen = () => {
       <Step3 />
       <Step4 />
       <Step5 />
-      Step: {step}
+      {/* Step: {step} */}
     </VStack>
   );
 };
