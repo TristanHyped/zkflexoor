@@ -1,7 +1,7 @@
 'use client';
 import { wagmiConfig } from '@/config/wagmiConfig';
 import { system } from '@/styles/theme';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, HStack, Link } from '@chakra-ui/react';
 import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
@@ -31,7 +31,24 @@ export default function AppProviders({ children }: { children: React.ReactNode }
           }}
         >
           <ChakraProvider value={system}>
-            <FlexoorProvider>{children}</FlexoorProvider>
+            <FlexoorProvider>
+              <>
+                <HStack
+                  p="1rem"
+                  fontSize="2rem"
+                  justifyContent="space-between"
+                  position="absolute"
+                  left="0"
+                  top="0"
+                >
+                  <HStack gap="4rem">
+                    <Link href="/flex">Flex</Link>
+                    <Link href="/leaderboard">Leaderboard</Link>
+                  </HStack>
+                </HStack>
+                {children}
+              </>
+            </FlexoorProvider>
           </ChakraProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
