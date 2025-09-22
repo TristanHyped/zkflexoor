@@ -17,8 +17,6 @@ interface FlexoorContextType {
   setStep: (step: number) => void;
   attachProof: () => Promise<void>;
   handleGenerate: () => Promise<void>;
-  handleSubmitOnChain: () => void;
-  handleActualProofSubmission: (tip: string) => Promise<void>;
   submissionResult: string | null;
   balanceTarget: number;
   started: boolean;
@@ -26,7 +24,6 @@ interface FlexoorContextType {
   status: string;
   submitionInput: SubmitionInputs;
   proofGenerated: boolean;
-  isModalOpen: boolean;
   isGenerating: boolean;
 }
 
@@ -51,19 +48,18 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
     tip: BigInt(10) ** BigInt(16) * BigInt(5),
   } as SubmitionInputs);
   const [proofGenerated, setProofGenerated] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [submissionResult, setSubmissionResult] = useState<string | null>(null);
   const [balanceTarget, setBalanceTarget] = useState(0);
   const [started, setStarted] = useState(false);
 
-  const { chainId, address } = useAccount();
+  const { chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   const { writeContractAsync } = useWriteContract();
 
   const handleGenerate = async () => {
     const values = {
-      balance: 5,
+      balance: 10,
       name: hlnInput,
     } as ProofRequest;
     console.log('😵‍💫 generating ');
@@ -98,10 +94,6 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
       setProgress(0);
       setStatus('');
     }
-  };
-
-  const handleSubmitOnChain = () => {
-    setModalOpen(true);
   };
 
   const handleActualProofSubmission = async (tip: string) => {
@@ -155,8 +147,6 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
         setStep,
         attachProof,
         handleGenerate,
-        handleSubmitOnChain,
-        handleActualProofSubmission,
         isGenerating,
         submissionResult,
         balanceTarget,
@@ -165,7 +155,6 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
         status,
         submitionInput,
         proofGenerated,
-        isModalOpen,
       }}
     >
       {children}

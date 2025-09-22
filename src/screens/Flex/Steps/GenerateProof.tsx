@@ -1,9 +1,9 @@
 import { SButton } from '@/components/shared/SButton';
 import { useFlexoor } from '@/contexts/FlexoorContext';
-import { Alert, HStack, Input, InputGroup, Text, VStack } from '@chakra-ui/react';
+import { Alert, HStack, Input, InputGroup, Progress, Text, VStack } from '@chakra-ui/react';
 
 export const GenerateProof = () => {
-  const { handleGenerate, hlnInput, status, setHlnInput, isGenerating } = useFlexoor();
+  const { handleGenerate, hlnInput, status, setHlnInput, isGenerating, progress } = useFlexoor();
   return (
     <VStack gap="1rem" w="full" maxW="500px">
       <Text fontSize="2rem">3. Generate ZK proof</Text>
@@ -29,6 +29,11 @@ export const GenerateProof = () => {
           </Alert.Title>
         </Alert.Content>
       </Alert.Root>
+      <Progress.Root value={progress} w="100%" colorPalette="cyan" striped>
+        <Progress.Track>
+          <Progress.Range />
+        </Progress.Track>
+      </Progress.Root>
       <Text fontSize="1.5rem">{status}</Text>
       <SButton text="Generate" onClick={handleGenerate} loading={isGenerating} />
     </VStack>
