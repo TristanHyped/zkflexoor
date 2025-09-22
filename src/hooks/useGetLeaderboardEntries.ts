@@ -5,10 +5,7 @@ export const useGetLeaderboardEntries = () => {
   const { data } = useQuery({
     queryKey: ['leaderboard'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('leaderboard')
-        .select('*')
-        .order('blockNumber', { ascending: false });
+      const { data, error } = await supabase.from('leaderboard').select('*');
       if (error) {
         console.error('Error fetching leaderboard entries:', error);
         return [];
@@ -18,6 +15,8 @@ export const useGetLeaderboardEntries = () => {
     initialData: [],
     refetchInterval: 5000,
   });
+
+  console.log('data', data);
 
   return { data };
 };
