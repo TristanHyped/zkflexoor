@@ -1,4 +1,4 @@
-import { Button, ButtonProps, Text } from "@chakra-ui/react";
+import { Button, type ButtonProps, Text } from '@chakra-ui/react';
 
 export const SButton = ({ text, ...props }: { text: string } & ButtonProps) => {
   return (
@@ -10,10 +10,10 @@ export const SButton = ({ text, ...props }: { text: string } & ButtonProps) => {
       color="black"
       fontSize="2rem"
       _hover={{
-        bg: "gray.800/20",
+        bg: 'gray.800/20',
       }}
       _active={{
-        bg: "transparent !important",
+        bg: 'transparent !important',
       }}
       {...props}
     >

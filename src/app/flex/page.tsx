@@ -1,7 +1,8 @@
 'use client';
 import { SButton } from '@/components/shared/SButton';
 import { useFlexoor } from '@/contexts/FlexoorContext';
-import { Alert, HStack, Input, InputGroup, Text, VStack } from '@chakra-ui/react';
+import { GenerateProof } from '@/screens/Flex/Steps/GenerateProof';
+import { Input, InputGroup, Text, VStack } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/navigation';
 
@@ -9,13 +10,20 @@ export default function Flex() {
   const { step } = useFlexoor();
   return (
     <VStack h="100svh" alignItems="center" justifyContent="center" gap="4rem">
-      {step === 0 && <FlexIntro />}
+      {/* {step === 0 && <FlexIntro />}
       {step === 1 && <Step1 />}
       {step === 2 && <Step2 />}
       {step === 3 && <Step3 />}
       {step === 4 && <Step4 />}
       {step === 5 && <Step5 />}
-      {step === 6 && <Step6 />}
+      {step === 6 && <Step6 />} */}
+      <FlexIntro />
+      <Step1 />
+      {/* <Step2 /> */}
+      <GenerateProof />
+      <Step4 />
+      <Step5 />
+      <Step6 />
     </VStack>
   );
 }
@@ -53,7 +61,7 @@ export const Step1 = () => {
 };
 
 export const Step2 = () => {
-  const { signMsg: signMessage } = useFlexoor();
+  const { hlnInput, setHlnInput } = useFlexoor();
   return (
     <VStack gap="2rem" w="full" maxW="500px">
       <Text fontSize="2rem">2. Sign the message</Text>
@@ -67,39 +75,11 @@ export const Step2 = () => {
             fontSize="1.5rem"
             px="0.5rem"
             bg="#eeeeff77"
+            value={hlnInput}
+            onChange={(e) => setHlnInput(e.target.value)}
           />
         </InputGroup>
-        <Alert.Root as={HStack} pr="0.5rem" pl="4px" py="4px" userSelect="none" status="warning">
-          <Alert.Indicator />
-          <Alert.Content>
-            <Alert.Title>
-              <Text>Make sure your public wallet controls the name</Text>
-            </Alert.Title>
-          </Alert.Content>
-        </Alert.Root>
       </VStack>
-      <SButton text="Sign" onClick={signMessage} />
-    </VStack>
-  );
-};
-
-export const Step3 = () => {
-  const { generateProof } = useFlexoor();
-  return (
-    <VStack gap="1rem" w="full" maxW="500px">
-      <Text fontSize="2rem">3. Generate ZK proof</Text>
-      <Text fontSize="1.5rem">You are a dolphin (1000-5000 HYPE)</Text>
-      <InputGroup endElement={'x'}>
-        <Input
-          placeholder="Enter your .hl name"
-          borderRadius="0"
-          border="3px solid black"
-          fontSize="1.5rem"
-          px="0.5rem"
-          bg="#eeeeff77"
-        />
-      </InputGroup>
-      <SButton text="Generate" onClick={generateProof} />
     </VStack>
   );
 };

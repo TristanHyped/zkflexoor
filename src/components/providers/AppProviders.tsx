@@ -1,5 +1,5 @@
 'use client';
-import { wagmiConfig } from '@/constants/wagmiConfig';
+import { wagmiConfig } from '@/config/wagmiConfig';
 import { system } from '@/styles/theme';
 import { ChakraProvider } from '@chakra-ui/react';
 import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';

@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 
-import { CHAIN_PROVIDER } from '@/config/providers';
+import { CHAIN_PROVIDER, hyperliquidMainnet } from '@/config/providers';
 import {
   braveWallet,
   coinbaseWallet,
@@ -57,3 +57,6 @@ export const wagmiConfig = createConfig({
 });
 
 export const HyperliquidProofRPC = 'https://rpc.purroofgroup.com';
+
+export const hostNetwork = hyperliquidMainnet;
+export const ETHRPC = 'https://docs-demo.quiknode.pro/';
