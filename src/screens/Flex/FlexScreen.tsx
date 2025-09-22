@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 export const FlexScreen = () => {
   const { step } = useFlexoor();
   return (
-    <VStack h="100svh" alignItems="center" justifyContent="center" gap="4rem">
+    <VStack h="100svh" alignItems="center" justifyContent="center" gap="4rem" my="400px">
       {/* {step === 0 && <FlexIntro />}
       {step === 1 && <Step1 />}
       {step === 2 && <Step2 />}
