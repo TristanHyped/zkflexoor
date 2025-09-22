@@ -5,7 +5,7 @@ import { generateProof } from '@/lib/proof';
 import { type ProofRequest, type SubmitionInputs } from '@/lib/types';
 import { FLEXOR_ADDRESS } from '@/lib/utils';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
-import { formatUnits, namehash, parseEther, toHex, zeroAddress } from 'viem';
+import { formatUnits, namehash, parseEther, toHex, zeroAddress, zeroHash } from 'viem';
 import { useAccount, useBalance, useSwitchChain, useWriteContract } from 'wagmi';
 import { signMessage } from 'wagmi/actions';
 import abi from '../../public/Flexor.json';
@@ -60,12 +60,20 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
   const { switchChainAsync } = useSwitchChain();
   const { writeContractAsync } = useWriteContract();
 
-  const { data: nameData, isLoading } = useGetNameData(
-    namehash(hlnInput),
-    namehash(hlnInput.replace('.hl', ''))
-  );
+  const { namehash: hlnNamehash, labelhash: hlnLabelhash } = useMemo(() => {
+    if (hlnInput.includes('.hl')) {
+      return {
+        namehash: namehash(hlnInput),
+        labelhash: namehash(hlnInput.replace('.hl', '')),
+      };
+    }
+    return {
+      namehash: zeroHash,
+      labelhash: zeroHash,
+    };
+  }, [hlnInput]);
 
-  console.log('nameData', nameData);
+  const { data: nameData, isLoading } = useGetNameData(hlnNamehash, hlnLabelhash);
 
   const isHlnValid = useMemo(() => {
     return hlnInput.includes('.hl') && nameData && nameData.owner !== zeroAddress;

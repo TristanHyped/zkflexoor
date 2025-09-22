@@ -20,18 +20,16 @@ export const useUpdateTextRecordByController = (
   value2: string,
   onSuccess: () => void
 ) => {
-  const contractConfig = {
-    address: HLNregistratorAddress,
-    abi: registratorAbi,
-    functionName: 'updateDataRecordByController',
-    args: [namehash, key1, value1, key2, value2],
-  } as const;
-
   const [isLoading, setIsLoading] = useState(false);
 
   const write = async () => {
     setIsLoading(true);
-    const { request } = await simulateContract(wagmiConfig, contractConfig as any);
+    const { request } = await simulateContract(wagmiConfig, {
+      address: HLNregistratorAddress,
+      abi: registratorAbi,
+      functionName: 'updateDataRecordByController',
+      args: [namehash, key1, value1, key2, value2],
+    });
     const hash = await writeContract(wagmiConfig, request);
     const receipt = await waitForTransactionReceipt(wagmiConfig, { hash });
     if (receipt.status === 'success') {

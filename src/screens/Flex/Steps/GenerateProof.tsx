@@ -19,15 +19,15 @@ const CheckIcon = chakra(FaCheck);
 
 export const GenerateProof = () => {
   const {
-    handleGenerate,
     hlnInput,
     status,
     isHlnLoading,
-    setHlnInput,
     tier,
     isGenerating,
     progress,
     isHlnValid,
+    handleGenerate,
+    setHlnInput,
   } = useFlexoor();
   return (
     <VStack gap="1rem" w="full" maxW="500px">
@@ -37,13 +37,13 @@ export const GenerateProof = () => {
       </Text>
       <InputGroup
         endElement={
-          <Box w="20px" h="20px" display="flex" alignItems="center" justifyContent="center">
+          <Box w="20px" h="20px" mr="5px" display="flex" alignItems="center" justifyContent="center">
             {hlnInput === '' ? null : isHlnLoading ? (
               <Spinner />
             ) : isHlnValid ? (
-              <CheckIcon color="green" />
+              <CheckIcon color="green.600" />
             ) : (
-              <XIcon color="red" />
+              <XIcon color="red.600" />
             )}
           </Box>
         }
@@ -74,7 +74,7 @@ export const GenerateProof = () => {
         </Progress.Track>
       </Progress.Root>
       <Text fontSize="1.5rem">{status}</Text>
-      <SButton text="Generate" onClick={handleGenerate} loading={isGenerating} />
+      <SButton text="Generate" onClick={handleGenerate} loading={isGenerating} disabled={!isHlnValid} />
     </VStack>
   );
 };
