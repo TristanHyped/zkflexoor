@@ -121,8 +121,6 @@ export class ClientProver implements IProver {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function encodeProofOutput(proof: any): ProofData {
   return {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     proof: new Uint8Array(proof.proof),
     publicInputs: proof.publicInputs,
   };
