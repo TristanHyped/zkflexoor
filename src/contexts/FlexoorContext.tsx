@@ -1,14 +1,11 @@
 import { supabase } from '@/clients/supabaseClient';
-import { hostNetwork } from '@/config/wagmiConfig';
 import { getTier, Tier, tiers } from '@/constants/tiers';
 import { useGetNameData } from '@/hooks/useGetNameData';
 import { generateProof } from '@/lib/proof';
 import { type ProofRequest, type SubmitionInputs } from '@/lib/types';
-import { FLEXOR_ADDRESS } from '@/lib/utils';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
-import { formatUnits, namehash, parseEther, toHex, zeroAddress, zeroHash } from 'viem';
+import { formatUnits, namehash, toHex, zeroAddress, zeroHash } from 'viem';
 import { useAccount, useBalance, useSwitchChain, useWriteContract } from 'wagmi';
-import abi from '../../public/Flexor.json';
 
 interface FlexoorContextType {
   hlnInput: string;
@@ -137,32 +134,6 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleActualProofSubmission = async (tip: string) => {
-    console.log('Submitting proof on-chain...');
-    if (chainId !== hostNetwork.id) {
-      await switchChainAsync({ chainId: hostNetwork.id });
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    }
-
-    const tx = await writeContractAsync({
-      abi,
-      address: FLEXOR_ADDRESS,
-      functionName: 'submitClaim',
-      args: [
-        toHex(submitionInput.proof),
-        toHex(submitionInput.publicInputs),
-        submitionInput.chainId,
-        submitionInput.blockNumber,
-        submitionInput.flexor_address ?? '0x0000000000000000000000000000000000000000',
-        submitionInput.flexor_hl,
-        submitionInput.full_message,
-      ],
-      value: parseEther(tip),
-      chainId: hostNetwork.id,
-    });
-    console.log(tx);
-  };
-
   const message = useMemo(() => {
     const messageObjet = {
       proof: toHex(submitionInput.proof),
@@ -170,7 +141,6 @@ export const FlexoorProvider = ({ children }: { children: ReactNode }) => {
       blockNumber: Number(submitionInput.blockNumber),
       flexor_hl: submitionInput.flexor_hl,
     };
-    console.log('messageObjet', messageObjet);
     return JSON.stringify(messageObjet);
   }, [submitionInput]);
 

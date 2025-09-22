@@ -1,3 +1,5 @@
+import { LeaderboardScreen } from '@/screens/Leaderboard/LeaderboardScreen';
+
 export default function Leaderboard() {
-  return <div>Leaderboard</div>;
+  return <LeaderboardScreen />;
 }
