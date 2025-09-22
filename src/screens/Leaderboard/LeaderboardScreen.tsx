@@ -1,3 +1,5 @@
+'use client';
+
 import { useGetLeaderboardEntries } from '@/hooks/useGetLeaderboardEntries';
 import { Flex, Text, VStack } from '@chakra-ui/react';
 
