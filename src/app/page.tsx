@@ -1,14 +1,17 @@
+'use client';
 import { SButton } from '@/components/shared/SButton';
 import { Box, Text, VStack } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
   return (
     <VStack py="6rem" px="3rem" gap="6rem">
       <VStack>
         <Text fontSize="4rem">ZK Flexoor</Text>
         <Text fontSize="2rem">Flex your HYPE Balance without doxxing your wallet address</Text>
 
-        <SButton text="Get Started" mt="2rem" />
+        <SButton text="Get Started" mt="2rem" onClick={() => router.push('/flex')} />
       </VStack>
 
       <VStack w="50%" alignSelf="flex-start">
@@ -39,7 +42,7 @@ export default function Home() {
           </ul>
         </Box>
       </VStack>
-      <SButton text="Get Started" mt="2rem" />
+      <SButton text="Get Started" mt="2rem" onClick={() => router.push('/flex')} />
     </VStack>
   );
 }
